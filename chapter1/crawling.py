@@ -1,6 +1,6 @@
 import urllib2
 import re
-
+from .throttle import Throttle
 
 def download(url, user_agent='wswp', proxy=None, num_retries=2):
     print 'Downloading: ', url
@@ -53,12 +53,19 @@ def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1):
     rp.set_url(seed_url + '/robots.txt')
     rp.read()
 
+    # Set up throttle to control access waiting time
+    throttle = Throttle(delay=1)
+
     while crawl_queue:
         url = crawl_queue.pop()
         # check url passes robots.txt restrictions
 
         if rp.can_fetch(user_agent, url):
             html = download(url)
+
+            # control access waiting time
+            throttle.wait(url=url)
+
             # filter for links matching our regular expression
             for link in get_links(html):
                 if re.match(link_regex, link):
