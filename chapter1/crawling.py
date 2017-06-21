@@ -40,13 +40,14 @@ import urlparse
 import robotparser
 
 
-def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1):
+def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2):
     """ Crawl from the given seed URL following links matched by link_regex """
 
     crawl_queue = [seed_url]
 
     # keep track which URL's have seen before
-    seen = set(crawl_queue)
+    seen = {}
+
 
     # define a robotparser
     rp = robotparser.RobotFileParser()
@@ -54,7 +55,7 @@ def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1):
     rp.read()
 
     # Set up throttle to control access waiting time
-    throttle = Throttle(delay=1)
+    throttle = Throttle(delay=delay)
 
     while crawl_queue:
         url = crawl_queue.pop()
@@ -66,13 +67,18 @@ def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1):
             # control access waiting time
             throttle.wait(url=url)
 
-            # filter for links matching our regular expression
-            for link in get_links(html):
-                if re.match(link_regex, link):
-                    link = urlparse.urljoin(seed_url, link)
-                    if link not in seen:
-                        seen.add(link)
-                        crawl_queue.append(link)
+            # Get the depth of current url
+            depth = seen[url]
+
+            if depth != max_depth:
+                # filter for links matching our regular expression
+                for link in get_links(html):
+                    if re.match(link_regex, link):
+                        link = urlparse.urljoin(seed_url, link)
+                        if link not in seen:
+                            seen[link] = depth + 1
+                            crawl_queue.append(link)
+
         else:
             print 'Blocked by robots.txt: ', url
 
