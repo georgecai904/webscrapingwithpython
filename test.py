@@ -14,7 +14,15 @@ if __name__ == "__main__":
     # from chapter3.crawler import link_crawler
     # link_crawler("http://example.webscraping.com/", "/places/default/view/")
 
-    # Test Chapter 3 disk_cache
-    from chapter3.disk_cache import DiskCache
-    dc = DiskCache(cache_dir=cache_dir)
-    dc.url_to_path(url=url)
+    # Test Chapter 3 disk_cache url_to_path
+    # from chapter3.disk_cache import DiskCache
+    # dc = DiskCache(cache_dir=cache_dir)
+    # dc.url_to_path(url=url)
+
+    # Test Chapter 3 disk_cache getter & setter
+    # from chapter3.disk_cache import DiskCache
+    # from chapter3.downloader import Downloader
+    # dc = DiskCache(cache_dir=cache_dir)
+    # downloader = Downloader()
+    # dc[url] = downloader(url)
+    # print(dc[url])

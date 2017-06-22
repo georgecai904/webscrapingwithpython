@@ -1,12 +1,32 @@
 import urlparse
 import hashlib
 import re, os
+import pickle
 
 
 class DiskCache:
     def __init__(self, cache_dir='cache', max_length=255):
         self.cache_dir = cache_dir
         self.max_length = max_length
+
+    def __getitem__(self, url):
+        """Load data from disk for this URL"""
+        path = self.url_to_path(url)
+        if os.path.exists(path):
+            with open(path, 'rb') as fp:
+                return pickle.load(fp)
+        else:
+            # URL has not yet been cached
+            raise KeyError(url + ' does not exist')
+
+    def __setitem__(self, url, result):
+        """Save data to disk for this url"""
+        path = self.url_to_path(url)
+        folder = os.path.dirname(path)
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        with open(path, "wb") as fp:
+            fp.write(pickle.dumps(result))
 
     def url_to_path(self, url):
         """Create file system path to this url"""
@@ -29,3 +49,4 @@ class DiskCache:
         filename = '/'.join(seg[:255] for seg in filename.split('/')[:-1]) + '/' + hash_value
 
         return os.path.join(self.cache_dir, filename)
+
