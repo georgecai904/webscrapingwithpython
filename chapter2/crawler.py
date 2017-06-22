@@ -1,7 +1,7 @@
 import urllib2
 import re
 from chapter1.throttle import Throttle
-from chapter2.scraperCallback import ScraperCallback
+from chapter2.scrapeCallback import ScrapeCallback
 
 
 def download(url, user_agent='wswp', proxy=None, num_retries=2):
@@ -42,7 +42,7 @@ import urlparse
 import robotparser
 
 
-def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2):
+def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2, scrape_callback=ScrapeCallback()):
     """ Crawl from the given seed URL following links matched by link_regex """
 
     crawl_queue = [seed_url]
@@ -65,6 +65,8 @@ def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2):
 
         if rp.can_fetch(user_agent, url):
             html = download(url)
+
+            scrape_callback(url, html)
 
             # control access waiting time
             throttle.wait(url=url)

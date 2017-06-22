@@ -1,12 +1,12 @@
 import csv
 import lxml.html
-import re.search
+import re
 
 
-class ScraperCallback:
+class ScrapeCallback:
     def __init__(self):
         self.writer = csv.writer(open('countries.csv', 'w'))
-        self.fields = ('area', 'popuation', )
+        self.fields = ('area', 'population', )
         self.writer.writerow(self.fields)
 
     def __call__(self, url, html):
