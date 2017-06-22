@@ -2,6 +2,7 @@ import urllib2
 import re
 from .throttle import Throttle
 
+
 def download(url, user_agent='wswp', proxy=None, num_retries=2):
     print 'Downloading: ', url
 
