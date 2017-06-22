@@ -1,7 +1,7 @@
 import urllib2
 import re
 from chapter1.throttle import Throttle
-from chapter2.scrapeCallback import ScrapeCallback
+from chapter2.scrape_callback import ScrapeCallback
 
 
 def download(url, user_agent='wswp', proxy=None, num_retries=2):

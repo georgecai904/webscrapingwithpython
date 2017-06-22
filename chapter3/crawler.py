@@ -1,5 +1,5 @@
 import re
-from chapter2.scrapeCallback import ScrapeCallback
+from chapter2.scrape_callback import ScrapeCallback
 from chapter3.downloader import Downloader
 
 import urlparse
