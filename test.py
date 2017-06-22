@@ -15,12 +15,24 @@ if __name__ == "__main__":
 
     """[Test] Chapter 3 disk_cache url_to_path"""  # from chapter3.disk_cache import DiskCache
     # dc = DiskCache(cache_dir=cache_dir)
-    # dc.url_to_path(url=url)
+    # dc._url_to_path(url=url)
 
     """[Test] Chapter 3 disk_cache getter & setter"""
+    # from chapter3.disk_cache import DiskCache
+    # from chapter3.downloader import Downloader
+    # dc = DiskCache(cache_dir=cache_dir)
+    # downloader = Downloader()
+    # dc[url] = downloader(url)
+    # print(dc[url])
+
+    """[Test] Chapter 3 disk_cache expires"""
     from chapter3.disk_cache import DiskCache
     from chapter3.downloader import Downloader
-    dc = DiskCache(cache_dir=cache_dir)
+    import datetime
+    import time
+    dc = DiskCache(cache_dir=cache_dir, expires=datetime.timedelta(seconds=5))
     downloader = Downloader()
     dc[url] = downloader(url)
+    print(dc[url])
+    time.sleep(5)
     print(dc[url])
