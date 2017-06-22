@@ -1,4 +1,6 @@
 import os
+import datetime
+import time
 
 if __name__ == "__main__":
     cache_dir = os.path.join(os.path.dirname(__file__), "cache")
@@ -26,13 +28,23 @@ if __name__ == "__main__":
     # print(dc[url])
 
     """[Test] Chapter 3 disk_cache expires"""
-    from chapter3.disk_cache import DiskCache
+    # from chapter3.disk_cache import DiskCache
+    # from chapter3.downloader import Downloader
+
+    # dc = DiskCache(cache_dir=cache_dir, expires=datetime.timedelta(seconds=5))
+    # downloader = Downloader()
+    # dc[url] = downloader(url)
+    # print(dc[url])
+    # time.sleep(5)
+    # print(dc[url])
+
+    """[Test] Chapter 3 mongodb"""
+    from chapter3.mongo_cache import MongoCache
     from chapter3.downloader import Downloader
-    import datetime
-    import time
-    dc = DiskCache(cache_dir=cache_dir, expires=datetime.timedelta(seconds=5))
+    mc = MongoCache(expires=datetime.timedelta(seconds=10))
     downloader = Downloader()
-    dc[url] = downloader(url)
-    print(dc[url])
-    time.sleep(5)
-    print(dc[url])
+    mc[url] = downloader(url)
+    # mc[url]
+    # time.sleep(70)
+    # print(mc[url])
+
