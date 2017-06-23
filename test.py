@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # time.sleep(70)
     # print(mc[url])
 
-
+    """[Test] Chapter 4 """
     # import csv
     # from zipfile import ZipFile
     # from StringIO import StringIO
@@ -66,15 +66,20 @@ if __name__ == "__main__":
     #     for _, website in csv.reader(zf.open(csv_filename)):
     #         urls.append('http://' + website)
     #         print(website)
+    #
+    # from chapter4.custom_callback import CustomCallback
+    # from chapter4.threaded_crawler import threaded_crawler, process_link_crawler
+    # from pymongo import MongoClient
+    # client = MongoClient('localhost', 27017)
+    # client.cache.crawl_queue.drop()
+    #
+    # scrape_callback = CustomCallback()
+    # # threaded_crawler()
+    # process_link_crawler(seed_url='http://alexa.chinaz.com/Country/index_CN.html', scrape_callback=scrape_callback)
 
-    from chapter4.custom_callback import CustomCallback
-    from chapter4.threaded_crawler import threaded_crawler, process_link_crawler
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    client.cache.crawl_queue.drop()
+    """[Test] Chapter 5 AJAX """
+    from chapter5.reverse_ajax import reverse_ajax
+    reverse_ajax()
 
-    scrape_callback = CustomCallback()
-    # threaded_crawler()
-    process_link_crawler(seed_url='http://alexa.chinaz.com/Country/index_CN.html', scrape_callback=scrape_callback)
 
 
