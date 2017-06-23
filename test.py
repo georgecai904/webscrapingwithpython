@@ -68,9 +68,13 @@ if __name__ == "__main__":
     #         print(website)
 
     from chapter4.custom_callback import CustomCallback
-    from chapter4.threaded_crawler import threaded_crawler
-    scrape_callback = CustomCallback()
-    threaded_crawler(seed_url='http://alexa.chinaz.com/Country/index_CN.html', scrape_callback=scrape_callback)
+    from chapter4.threaded_crawler import threaded_crawler, process_link_crawler
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    client.cache.crawl_queue.drop()
 
+    scrape_callback = CustomCallback()
+    # threaded_crawler()
+    process_link_crawler(seed_url='http://alexa.chinaz.com/Country/index_CN.html', scrape_callback=scrape_callback)
 
 

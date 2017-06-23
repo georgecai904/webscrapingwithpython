@@ -2,26 +2,31 @@ import threading
 from chapter4.downloader import Downloader
 import re, time
 
+from chapter4.mongo_queue import MongoQueue
+
 
 def threaded_crawler(seed_url, user_agent='wswp', delay=1,
                      scrape_callback=None, cache_callback=None, max_threads=10, proxies=[], num_retries=2, timeout=10):
     # the queue of URL's that still need to be crawled
-    crawl_queue = scrape_callback(seed_url)
+    # crawl_queue =
+    crawl_queue = MongoQueue()
+    for url in scrape_callback(seed_url):
+        crawl_queue.push(url)
 
     # the URL's that has been seen
     D = Downloader(cache=cache_callback, delay=delay, user_agent=user_agent, proxies=proxies, num_retries=num_retries,
                    timeout=timeout)
 
     def process_queue():
-        if crawl_queue:
+        try:
             url = crawl_queue.pop()
             D(url)
-    # D("http://www.baidu.com")
-    # for url in crawl_queue:
-    #     D(url)
+            crawl_queue.complete(url)
+        except KeyError:
+            pass
+
     threads = []
     while threads or crawl_queue:
-        # print(threads, crawl_queue)
         # the crawl is still active
         for thread in threads:
             if not thread.is_alive():
@@ -41,10 +46,18 @@ def threaded_crawler(seed_url, user_agent='wswp', delay=1,
         time.sleep(1)
 
 
-def _get_links(html):
-    """ Return a list of links from html"""
+import multiprocessing
 
-    # a regular expression to extract all links from the webpage
-    webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']', re.IGNORECASE)
-    # list of all links from the webpage
-    return webpage_regex.findall(html)
+
+def process_link_crawler(*args, **kwargs):
+    print args, kwargs
+    num_cpus = multiprocessing.cpu_count()
+    print('Starting {} processes'.format(num_cpus))
+    processes = []
+    for i in range(num_cpus):
+        p = multiprocessing.Process(target=threaded_crawler, args=args, kwargs=kwargs)
+        p.start()
+        processes.append(p)
+    # wait for processes to complete
+    for p in processes:
+        p.join()
