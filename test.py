@@ -39,12 +39,33 @@ if __name__ == "__main__":
     # print(dc[url])
 
     """[Test] Chapter 3 mongodb"""
-    from chapter3.mongo_cache import MongoCache
-    from chapter3.downloader import Downloader
-    mc = MongoCache(expires=datetime.timedelta(seconds=10))
-    downloader = Downloader()
-    mc[url] = downloader(url)
+    # from chapter3.mongo_cache import MongoCache
+    # from chapter3.downloader import Downloader
+    # mc = MongoCache(expires=datetime.timedelta(seconds=10))
+    # downloader = Downloader()
+    # mc[url] = downloader(url)
     # mc[url]
     # time.sleep(70)
     # print(mc[url])
+
+
+    # import csv
+    # from zipfile import ZipFile
+    # from StringIO import StringIO
+    # from chapter3.downloader import Downloader
+    #
+    # D = Downloader()
+    # zipped_data = D('http://s3.amazonaws.com/alexa-static/top-1m.csv.zip')
+    #
+    # # Top 1 million URL's will be stored in this list
+    # urls = []
+    # # print(zipped_data)
+    # with ZipFile(StringIO(zipped_data)) as zf:
+    #     csv_filename = zf.namelist()[0]
+    #     print(zf.namelist())
+    #     for _, website in csv.reader(zf.open(csv_filename)):
+    #         urls.append('http://' + website)
+    #         print(website)
+
+
 
