@@ -7,7 +7,7 @@ import robotparser
 
 
 def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2, scrape_callback=ScrapeCallback(),
-                 cache=None):
+                 cache_callback=None):
     """ Crawl from the given seed URL following links matched by link_regex """
 
     crawl_queue = [seed_url]
@@ -18,7 +18,7 @@ def link_crawler(seed_url, link_regex, user_agent='wswp', delay=1, max_depth=2, 
     # Set up robots
     rp = _get_robots(seed_url)
 
-    downloader = Downloader(delay=delay, user_agent=user_agent, proxies=None, num_retries=3, cache=cache)
+    downloader = Downloader(delay=delay, user_agent=user_agent, proxies=None, num_retries=3, cache=cache_callback)
 
     links = []
 

@@ -67,5 +67,10 @@ if __name__ == "__main__":
     #         urls.append('http://' + website)
     #         print(website)
 
+    from chapter4.custom_callback import CustomCallback
+    from chapter4.threaded_crawler import threaded_crawler
+    scrape_callback = CustomCallback()
+    threaded_crawler(seed_url='http://alexa.chinaz.com/Country/index_CN.html', scrape_callback=scrape_callback)
+
 
 

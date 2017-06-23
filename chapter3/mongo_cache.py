@@ -13,6 +13,7 @@ class MongoCache:
         self.db = self.client.cache
 
         # create index to expire cached webpages
+        self.db.webpage.drop_indexes()
         self.db.webpage.create_index('timestamp', expireAfterSeconds=expires.total_seconds())
         # print(self.db.webpage.index_information())
 
