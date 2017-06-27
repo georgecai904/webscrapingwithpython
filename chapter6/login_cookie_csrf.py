@@ -4,7 +4,6 @@ LOGIN_URL = 'http://example.webscraping.com/places/default/user/login'
 LOGIN_EMAIL = 'example@webscraping.com'
 LOGIN_PASSWORD = 'example'
 
-
 def parse_form(html):
     import lxml.html
     tree = lxml.html.fromstring(html)
